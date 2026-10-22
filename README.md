@@ -1,6 +1,13 @@
 # Multi-User Chatbot Simulator
 
+[![npm](https://img.shields.io/npm/v/multi-user-chatbot-simulator)](https://www.npmjs.com/package/multi-user-chatbot-simulator)
+[![license: MIT](https://img.shields.io/npm/l/multi-user-chatbot-simulator)](LICENSE)
+
 **Simulate many users talking to your chatbot, and to each other through it.**
+
+```
+npm install multi-user-chatbot-simulator
+```
 
 ![A lead and three members, each with their own chat: the lead's question reached three users, one answered with a quick reply, one with their own text, and one hasn't answered yet](docs/images/board.png)
 
@@ -49,6 +56,8 @@ The core idea: **one user's message can reach others.** A lead sends one message
 
 ## Quick start
 
+To try it with the built-in demo bot, run the demo page from this repo:
+
 ```
 git clone https://github.com/hananbenshabat/multi-user-chatbot-simulator.git
 cd multi-user-chatbot-simulator
@@ -71,8 +80,10 @@ Tests: `npm test`. Build: `npm run build`. Everything (types, lint, format, test
 ## Use it in your project
 
 ```
-npm install multi-user-chatbot-simulator
+npm install multi-user-chatbot-simulator react-router
 ```
+
+React, React DOM and React Router are peer dependencies (your app's own copies are used); Mantine is bundled.
 
 **Any page (no React needed):** use `dist/chatbot-sim.js` and `dist/chatbot-sim.css` from the package (React and Mantine are inside), for example from a CDN: `https://unpkg.com/multi-user-chatbot-simulator/dist/chatbot-sim.js` and `…/dist/chatbot-sim.css`.
 
@@ -136,7 +147,7 @@ A script is a JSON scenario that creates users, acts as them (say, tap, share, l
 
 - **Import:** **Script → Import file** opens a `.json` script in the editor; press **Run**. Examples are in [`examples/scripts/`](examples/scripts).
 - **Write or record:** the **Script** dialog edits JSON; **From this session** records what you did by hand, and **Export file** saves it to share or to import later.
-- **From code or CI:** `await app.run(script)` in the browser, or `runScript()` headless in Node.
+- **From code or CI:** `await app.run(script)` in the browser, or headless in Node: `import { runScript } from 'multi-user-chatbot-simulator/script'` (with `/core` and `/adapters/http-json`, no React needed).
 
 Every step and option is in [docs/scripts.md](docs/scripts.md).
 
