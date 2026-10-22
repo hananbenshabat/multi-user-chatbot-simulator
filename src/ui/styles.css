@@ -1,0 +1,633 @@
+/* Multi-User Chatbot Simulator styles.
+ * Mantine's component styles, without its page-wide reset (baseline.css styles <body> and *),
+ * so the simulator can sit inside any page. Everything of ours is under .cbs-root; the class
+ * names are stable, so a host page can restyle them. */
+/* in the order of @mantine/core/styles.css: later files override earlier ones */
+@import '@mantine/core/styles/global.css';
+@import '@mantine/core/styles/ScrollArea.css';
+@import '@mantine/core/styles/UnstyledButton.css';
+@import '@mantine/core/styles/VisuallyHidden.css';
+@import '@mantine/core/styles/Paper.css';
+@import '@mantine/core/styles/Overlay.css';
+@import '@mantine/core/styles/Popover.css';
+@import '@mantine/core/styles/Loader.css';
+@import '@mantine/core/styles/ActionIcon.css';
+@import '@mantine/core/styles/CloseButton.css';
+@import '@mantine/core/styles/Group.css';
+@import '@mantine/core/styles/ModalBase.css';
+@import '@mantine/core/styles/Input.css';
+@import '@mantine/core/styles/Alert.css';
+@import '@mantine/core/styles/Text.css';
+@import '@mantine/core/styles/Anchor.css';
+@import '@mantine/core/styles/Combobox.css';
+@import '@mantine/core/styles/InlineInput.css';
+@import '@mantine/core/styles/CheckboxIndicator.css';
+@import '@mantine/core/styles/Checkbox.css';
+@import '@mantine/core/styles/Badge.css';
+@import '@mantine/core/styles/Button.css';
+@import '@mantine/core/styles/Center.css';
+@import '@mantine/core/styles/ColorSwatch.css';
+@import '@mantine/core/styles/ColorPicker.css';
+@import '@mantine/core/styles/ColorInput.css';
+@import '@mantine/core/styles/Divider.css';
+@import '@mantine/core/styles/Fieldset.css';
+@import '@mantine/core/styles/Indicator.css';
+@import '@mantine/core/styles/Menu.css';
+@import '@mantine/core/styles/Modal.css';
+@import '@mantine/core/styles/Pill.css';
+@import '@mantine/core/styles/PillsInput.css';
+@import '@mantine/core/styles/NavLink.css';
+@import '@mantine/core/styles/Notification.css';
+@import '@mantine/core/styles/NumberInput.css';
+@import '@mantine/core/styles/PasswordInput.css';
+@import '@mantine/core/styles/Tooltip.css';
+@import '@mantine/core/styles/SimpleGrid.css';
+@import '@mantine/core/styles/Stack.css';
+@import '@mantine/core/styles/Switch.css';
+@import '@mantine/core/styles/Table.css';
+@import '@mantine/core/styles/Tabs.css';
+@import '@mantine/core/styles/ThemeIcon.css';
+@import '@mantine/notifications/styles.css';
+
+/* ---- tokens and a reset scoped to the simulator ------------------------------------------ */
+.cbs-root {
+  --cbs-board-bg: #f1f3f6;
+  --cbs-chat-bg: #f7f8fa;
+  --cbs-bubble-bot: #ffffff;
+  --cbs-bubble-border: var(--mantine-color-gray-3);
+  --cbs-shadow: 0 1px 2px rgba(16, 24, 40, 0.05), 0 1px 3px rgba(16, 24, 40, 0.06);
+
+  color-scheme: light;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto; /* fills a flex-column host (see index.html) */
+  min-height: 100%;
+  font-family: var(--mantine-font-family);
+  font-size: var(--mantine-font-size-sm);
+  line-height: var(--mantine-line-height);
+  color: var(--mantine-color-text);
+  background: var(--cbs-board-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.cbs-root[data-mantine-color-scheme='dark'] {
+  --cbs-board-bg: var(--mantine-color-dark-9);
+  --cbs-chat-bg: var(--mantine-color-dark-8);
+  --cbs-bubble-bot: var(--mantine-color-dark-6);
+  --cbs-bubble-border: transparent;
+  --cbs-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  color-scheme: dark;
+}
+.cbs-root *,
+.cbs-root *::before,
+.cbs-root *::after {
+  box-sizing: border-box;
+}
+.cbs-root :where(input, button, textarea, select) {
+  font: inherit;
+}
+/* zero specificity, so every Mantine class still wins */
+:where(.cbs-root) :where(button) {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+}
+.cbs-root .mantine-Badge-root {
+  text-transform: none;
+  letter-spacing: 0;
+}
+.cbs-root code {
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 0.92em;
+}
+
+.cbs-root :where(.cbs-row, .cbs-targets) {
+  scrollbar-width: thin;
+  scrollbar-color: var(--mantine-color-default-border) transparent;
+}
+
+/* ---- header ------------------------------------------------------------------------------- */
+.cbs-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  padding: 10px 20px;
+  background: color-mix(in srgb, var(--mantine-color-body) 88%, transparent);
+  backdrop-filter: saturate(1.6) blur(10px);
+  border-bottom: 1px solid var(--mantine-color-default-border);
+}
+.cbs-brand {
+  min-width: 0;
+  margin-inline-end: 6px;
+  color: inherit;
+  text-decoration: none;
+  border-radius: var(--mantine-radius-md);
+}
+.cbs-brand:focus-visible {
+  outline: 2px solid var(--mantine-primary-color-filled);
+  outline-offset: 2px;
+}
+.cbs-brand-text {
+  min-width: 0;
+  max-width: 300px;
+}
+.cbs-search {
+  width: 300px;
+}
+/* Users | Timeline: links that look like a segmented switch */
+.cbs-viewnav {
+  display: inline-flex;
+  gap: 2px;
+  padding: 4px;
+  border-radius: var(--mantine-radius-md);
+  background: var(--mantine-color-gray-1);
+}
+[data-mantine-color-scheme='dark'] .cbs-viewnav {
+  background: var(--mantine-color-dark-8);
+}
+.cbs-root .cbs-viewnav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: calc(var(--mantine-radius-md) - 2px);
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--mantine-color-dimmed);
+  text-decoration: none;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+.cbs-root .cbs-viewnav-item:hover {
+  color: var(--mantine-color-text);
+}
+.cbs-root .cbs-viewnav-item.active {
+  background: var(--mantine-color-body);
+  color: var(--mantine-color-text);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+[data-mantine-color-scheme='dark'] .cbs-viewnav-item.active {
+  background: var(--mantine-color-dark-5);
+}
+.cbs-root .cbs-viewnav-item:focus-visible {
+  outline: 2px solid var(--mantine-primary-color-filled);
+  outline-offset: 1px;
+}
+.cbs-header-end {
+  margin-inline-start: auto;
+}
+.cbs-script-badge {
+  max-width: 340px;
+  text-transform: none;
+  font-weight: 500;
+}
+.cbs-ellipsis {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---- board -------------------------------------------------------------------------------- */
+.cbs-main {
+  flex: 1;
+  padding: 20px;
+}
+.cbs-group {
+  margin-bottom: 24px;
+}
+.cbs-group-head {
+  margin: 0 2px 10px;
+}
+.cbs-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 2px 2px 14px;
+  scroll-snap-type: x proximity;
+}
+.cbs-grid .cbs-row {
+  flex-wrap: wrap;
+  overflow-x: visible;
+}
+.cbs-chevron {
+  transition: transform 0.15s ease;
+}
+.cbs-chevron-closed {
+  transform: rotate(-90deg);
+}
+[dir='rtl'] .cbs-chevron-closed {
+  transform: rotate(90deg);
+}
+
+/* ---- a user's chat ------------------------------------------------------------------------ */
+.cbs-chat {
+  position: relative;
+  flex: 0 0 var(--cbs-chat-w);
+  width: var(--cbs-chat-w);
+  max-width: calc(100vw - 40px);
+  height: var(--cbs-chat-h);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  scroll-snap-align: start;
+  box-shadow: var(--cbs-shadow);
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+.cbs-chat.cbs-broken {
+  border-style: dashed;
+}
+.cbs-chat.cbs-flash {
+  animation: cbs-flash 0.9s ease-out;
+}
+@keyframes cbs-flash {
+  from {
+    box-shadow: 0 0 0 3px var(--mantine-primary-color-filled);
+  }
+  to {
+    box-shadow: var(--cbs-shadow);
+  }
+}
+
+.cbs-chat-head {
+  padding: 12px 12px 10px;
+  border-bottom: 1px solid var(--mantine-color-default-border);
+}
+.cbs-who {
+  flex: 1;
+  min-width: 0;
+}
+.cbs-role-icon {
+  margin-inline-end: 5px;
+}
+
+/* The To row: who this user can reach; the current recipients are highlighted. Display only. */
+.cbs-to-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding-inline: 8px;
+  border-radius: 999px;
+  font-size: var(--mantine-font-size-xs);
+  white-space: nowrap;
+  color: var(--mantine-color-dimmed);
+  border: 1px solid var(--mantine-color-default-border);
+  transition:
+    background-color 120ms,
+    color 120ms,
+    border-color 120ms;
+}
+.cbs-to-chip-on {
+  color: var(--mantine-primary-color-light-color);
+  background: var(--mantine-primary-color-light);
+  border-color: transparent;
+  font-weight: 600;
+}
+
+.cbs-msgs-area {
+  flex: 1;
+  min-height: 0;
+  background: var(--cbs-chat-bg);
+}
+.cbs-msgs-viewport {
+  overscroll-behavior: contain;
+}
+/* Mantine wraps the content in a display:table div; make it a column at least as tall as the
+   viewport, so an empty chat's hint centers and long chats grow and scroll */
+.cbs-msgs-viewport > div {
+  display: flex !important;
+  flex-direction: column;
+  min-height: 100%;
+}
+.cbs-msgs {
+  flex: 1;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.cbs-empty-chat {
+  margin: auto 0;
+  padding: 0 16px;
+}
+
+/* bubbles */
+.cbs-msg {
+  max-width: 85%;
+  align-self: flex-start;
+  padding: 7px 11px;
+  border-radius: 14px;
+  background: var(--cbs-bubble-bot);
+  border: 1px solid var(--cbs-bubble-border);
+  box-shadow: 0 1px 1px rgba(16, 24, 40, 0.04);
+  font-size: var(--mantine-font-size-sm);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+.cbs-msg.cbs-me {
+  align-self: flex-end;
+  background: var(--mantine-primary-color-filled);
+  color: var(--mantine-primary-color-contrast, #fff);
+  border-color: transparent;
+}
+.cbs-msg.cbs-system {
+  align-self: center;
+  max-width: 95%;
+  border-radius: 10px;
+  text-align: center;
+  background: var(--mantine-color-yellow-light);
+  color: var(--mantine-color-text);
+  border-color: transparent;
+  box-shadow: none;
+  font-size: var(--mantine-font-size-xs);
+}
+.cbs-msg.cbs-error {
+  background: var(--mantine-color-red-light);
+  color: var(--mantine-color-red-light-color);
+}
+.cbs-square .cbs-msg {
+  border-radius: 4px;
+}
+/* who a relayed message is from: a small name on top of the bubble */
+.cbs-root .cbs-author {
+  display: block;
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.3;
+  margin-bottom: 1px;
+  color: var(--mantine-primary-color-light-color);
+}
+.cbs-root .cbs-author:hover {
+  text-decoration: underline;
+}
+.cbs-text {
+  white-space: pre-wrap;
+  unicode-bidi: plaintext;
+}
+.cbs-img {
+  display: block;
+  max-width: 100%;
+  border-radius: 10px;
+  margin-bottom: 4px;
+}
+.cbs-time {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  margin-top: 3px;
+  font-size: 10px;
+  opacity: 0.6;
+  font-variant-numeric: tabular-nums;
+}
+.cbs-me .cbs-contact-link {
+  color: inherit;
+  text-decoration: underline;
+}
+.cbs-muted-on {
+  opacity: 0.7;
+}
+.cbs-list-row {
+  display: block;
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 8px;
+  text-align: start;
+}
+.cbs-list-row:hover {
+  background: var(--mantine-color-default-hover);
+}
+.cbs-meta {
+  margin-top: 6px;
+}
+.cbs-meta-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  opacity: 0.7;
+}
+.cbs-meta pre {
+  margin: 4px 0 0;
+  padding: 8px;
+  max-height: 200px;
+  overflow: auto;
+  border-radius: 8px;
+  background: var(--mantine-color-default-hover);
+  font: 11px/1.45 var(--mantine-font-family-monospace);
+}
+
+/* "waiting for a reply" */
+.cbs-typing {
+  align-self: flex-start;
+  display: flex;
+  gap: 4px;
+  padding: 11px 13px;
+  background: var(--cbs-bubble-bot);
+  border: 1px solid var(--cbs-bubble-border);
+  border-radius: 14px;
+}
+.cbs-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--mantine-color-dimmed);
+  animation: cbs-dot 1.1s infinite ease-in-out;
+}
+.cbs-typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.cbs-typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes cbs-dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+/* message box */
+.cbs-composer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--mantine-color-default-border);
+  background: var(--mantine-color-body);
+}
+/* "Avi isn't linked to you. [Link Avi] [×]" above the To row */
+.cbs-link-suggest {
+  padding: 4px 4px 4px 10px;
+  border-radius: var(--mantine-radius-md);
+  background: var(--mantine-primary-color-light);
+}
+.cbs-targets {
+  max-height: 64px;
+  overflow-y: auto;
+}
+.cbs-input {
+  flex: 1;
+  min-width: 0;
+}
+.cbs-input textarea::placeholder {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- the dashed "Add user" tile -------------------------------------------------------- */
+.cbs-add-tile {
+  flex: 0 0 var(--cbs-chat-w);
+  width: var(--cbs-chat-w);
+  max-width: calc(100vw - 40px);
+  height: var(--cbs-chat-h);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 2px dashed var(--mantine-color-default-border);
+  border-radius: var(--mantine-radius-lg);
+  color: var(--mantine-color-text);
+  scroll-snap-align: start;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    transform 0.15s ease;
+}
+.cbs-add-tile:hover {
+  border-color: var(--mantine-primary-color-filled);
+  background: var(--mantine-primary-color-light);
+}
+.cbs-add-tile:active {
+  transform: scale(0.995);
+}
+.cbs-add-tile:focus-visible {
+  outline: 2px solid var(--mantine-primary-color-filled);
+  outline-offset: 2px;
+}
+
+/* ---- settings page ------------------------------------------------------------------------- */
+.cbs-settings {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 24px;
+  max-width: 1180px;
+  margin: 0 auto;
+  align-items: start;
+}
+.cbs-settings-nav {
+  position: sticky;
+  top: 76px;
+  display: flex;
+  flex-direction: column;
+}
+.cbs-root .cbs-settings-link {
+  border-radius: var(--mantine-radius-md);
+}
+.cbs-settings-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.cbs-settings-card {
+  box-shadow: var(--cbs-shadow);
+}
+/* stays in view at the bottom while the profile has unsaved changes */
+.cbs-savebar {
+  position: sticky;
+  bottom: 16px;
+  z-index: 5;
+}
+@media (max-width: 760px) {
+  .cbs-settings {
+    grid-template-columns: 1fr;
+  }
+  .cbs-settings-nav {
+    position: static;
+  }
+}
+
+/* ---- timeline ----------------------------------------------------------------------------- */
+.cbs-timeline {
+  max-width: 1040px;
+  margin: 0 auto;
+  overflow: hidden;
+  box-shadow: var(--cbs-shadow);
+}
+.cbs-tl-text {
+  white-space: pre-wrap;
+  unicode-bidi: plaintext;
+}
+.cbs-tl-system td {
+  color: var(--mantine-color-dimmed);
+}
+
+/* ---- dialogs ------------------------------------------------------------------------------ */
+.cbs-root .cbs-mono :where(input, textarea) {
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 12px;
+}
+.cbs-person-check {
+  align-items: center;
+}
+
+/* ---- density, small screens, motion ------------------------------------------------------- */
+.cbs-compact .cbs-chat-head {
+  padding: 8px 10px;
+}
+.cbs-compact .cbs-msgs {
+  padding: 8px;
+  gap: 4px;
+}
+.cbs-compact .cbs-msg {
+  padding: 5px 9px;
+}
+.cbs-compact .cbs-composer {
+  padding: 8px;
+}
+
+@media (max-width: 720px) {
+  .cbs-header {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  .cbs-brand-text {
+    max-width: 200px;
+  }
+  .cbs-search {
+    width: auto;
+    flex: 1 1 160px;
+  }
+  .cbs-main {
+    padding: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cbs-chat.cbs-flash,
+  .cbs-typing span {
+    animation: none;
+  }
+  .cbs-chevron,
+  .cbs-add-tile {
+    transition: none;
+  }
+}

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Drop-in example</title>
+    <link rel="icon" type="image/svg+xml" href="../demo/favicon.svg" />
+    <!-- The one-file build: run `npm run build` first, or use the files from a release. -->
+    <link rel="stylesheet" href="../dist/chatbot-sim.css" />
+    <style>
+      body {
+        margin: 0;
+      }
+      #app {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="../dist/chatbot-sim.js"></script>
+    <script>
+      window.app = ChatbotSim.mount(document.getElementById('app'), {
+        title: 'Bot console',
+        storageKey: 'chatbot-sim-drop-in',
+        profile: 'support',
+        adapters: [ChatbotSimAdapters.demo(), ChatbotSimAdapters.httpJson({ type: 'http', label: 'Local server' })],
+      });
+    </script>
+  </body>
+</html>

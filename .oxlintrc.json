@@ -1,0 +1,37 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "import", "react", "jsx-a11y", "vitest"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+  },
+  "env": { "browser": true, "node": true, "es2024": true },
+  "ignorePatterns": ["dist"],
+  "rules": {
+    // types say what things are: validate untrusted input with guards instead of casting
+    "typescript/no-explicit-any": "error",
+    "typescript/no-non-null-assertion": "error",
+    "typescript/consistent-type-assertions": ["error", { "assertionStyle": "never" }],
+    "typescript/ban-ts-comment": "error",
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "eqeqeq": ["error", "always", { "null": "ignore" }],
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    // CSS is imported for its side effect
+    "import/no-unassigned-import": ["warn", { "allow": ["**/*.css"] }],
+    // scripts run their steps one after another on purpose
+    "no-await-in-loop": "off",
+    // toSorted() needs Node 20; the logic layer supports Node 18
+    "unicorn/no-array-sort": "off",
+    // { ...x, y } in map() reads better here than mutation; the lists are small
+    "oxc/no-map-spread": "off",
+    // Mantine renders the elements; roles on them are the way to name what they are
+    "jsx-a11y/prefer-tag-over-role": "off",
+    // index keys are right for lists that never reorder (log lines, a message's contacts) and for
+    // editable profile rows, whose only identity (the ID) is what's being edited
+    "react/no-array-index-key": "off"
+  },
+  "overrides": [{ "files": ["examples/**"], "rules": { "no-console": "off" } }]
+}

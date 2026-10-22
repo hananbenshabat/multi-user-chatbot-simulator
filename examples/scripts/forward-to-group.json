@@ -1,0 +1,17 @@
+{
+  "name": "Lead forwards to the whole group",
+  "profile": "team",
+  "reset": true,
+  "delay": 400,
+  "users": [
+    { "ref": "lead", "name": "Lead", "role": "lead" },
+    { "ref": "m", "name": "Member", "role": "member", "linkFrom": "lead", "count": 3 }
+  ],
+  "steps": [
+    { "as": "lead", "say": "Team meeting at 5" },
+    { "as": "lead", "tap": "Forward to my group" },
+    { "expect": { "user": "m1", "text": "Team meeting at 5" } },
+    { "expect": { "user": "m2", "text": "Team meeting at 5" } },
+    { "expect": { "user": "m3", "text": "Team meeting at 5" } }
+  ]
+}

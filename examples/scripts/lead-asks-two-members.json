@@ -1,0 +1,19 @@
+{
+  "name": "Lead asks two members",
+  "profile": "team",
+  "reset": true,
+  "delay": 400,
+  "users": [
+    { "ref": "lead", "name": "Lead", "role": "lead" },
+    { "ref": "dana", "name": "Dana", "role": "member", "linkFrom": "lead" },
+    { "ref": "avi", "name": "Avi", "role": "member", "linkFrom": "lead" },
+    { "ref": "noa", "name": "Noa", "role": "member", "linkFrom": "lead" }
+  ],
+  "steps": [
+    { "as": "lead", "say": "Can you review my draft?", "to": ["dana", "noa"] },
+    { "expect": { "user": "dana", "text": "Can you review my draft?" } },
+    { "expect": { "user": "avi", "none": true } },
+    { "as": "dana", "tap": "👍 Got it" },
+    { "expect": { "user": "lead", "text": "Got it" } }
+  ]
+}

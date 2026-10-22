@@ -1,0 +1,40 @@
+# Code only: planning docs, research and Claude config stay out of git.
+/CLAUDE.md
+/DECISIONS.md
+/NEXT_STEPS.md
+/research/
+/plan/
+/scratch/
+/.claude/
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node / build output
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Local output and stored user data
+/output/
+/data/
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
