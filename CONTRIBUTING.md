@@ -6,6 +6,7 @@ Setup: Node 20.19+ (or 22.12+), then `npm install`.
 - `npm test`: Vitest. The logic tests (`test/*.test.ts`: core, scripts, adapters) run in Node; the UI tests (`test/ui/`) render the simulator in happy-dom with Testing Library. `npm run test:watch` reruns on save.
 - `npm run lint` (oxlint), `npm run format` / `format:check` (oxfmt), `npm run typecheck`, `npm run knip` (unused files, exports and dependencies).
 - `npm run build`: typecheck, then `dist/index.js` (ESM for React apps) with `dist/core.js`, `dist/script.js` and `dist/adapters/*.js` (no React; run in Node 18+), `dist/chatbot-sim.js` + `dist/chatbot-sim.css` (the one-file drop-in) and the type declarations.
+- `npm run build:site`: the demo page for GitHub Pages in `site/` (deployed on every push to `main` by `.github/workflows/pages.yml`).
 - `npm run check`: all of the above plus `publint`. Run it before sending a change.
 - A pre-commit hook (husky + lint-staged, installed by `npm install`) formats and lints the staged files.
 

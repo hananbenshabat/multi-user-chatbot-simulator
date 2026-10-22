@@ -24,6 +24,7 @@ __pycache__/
 # Node / build output
 node_modules/
 dist/
+/site/
 *.tsbuildinfo
 
 # Local output and stored user data

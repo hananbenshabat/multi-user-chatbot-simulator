@@ -1,6 +1,7 @@
 # Changelog
 
 ## 0.5.1 (2026-10-23)
+- **Live demo** on GitHub Pages: https://hananbenshabat.github.io/multi-user-chatbot-simulator/ (`npm run build:site`, deployed by a GitHub Actions workflow).
 - README: shorter, with install from npm and the one-file build from a CDN. No code changes.
 
 ## 0.5.0 (2026-10-23)

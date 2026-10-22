@@ -4,7 +4,15 @@ import react from '@vitejs/plugin-react';
 // `vite`                          the demo page (index.html → demo/main.tsx)
 // `vite build`                    dist/index.js (+ core.js, script.js, adapters/): ES modules for React apps and Node
 // `vite build --mode standalone`  dist/chatbot-sim.js: one script with React inside, for any page
+// `vite build --mode pages`       site/: the demo page for GitHub Pages (served from /multi-user-chatbot-simulator/)
 export default defineConfig(({ mode }) => {
+  if (mode === 'pages') {
+    return {
+      plugins: [react()],
+      base: '/multi-user-chatbot-simulator/',
+      build: { outDir: 'site', emptyOutDir: true },
+    };
+  }
   const standalone = mode === 'standalone';
   return {
     plugins: [react()],

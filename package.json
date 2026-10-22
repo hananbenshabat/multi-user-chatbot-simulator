@@ -80,7 +80,8 @@
     "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run knip && npm run build && npm run publint",
     "echo": "node examples/echo-server.mjs",
     "prepare": "husky",
-    "prepublishOnly": "npm run check"
+    "prepublishOnly": "npm run check",
+    "build:site": "vite build --mode pages"
   },
   "devDependencies": {
     "@mantine/core": "^9.7.3",

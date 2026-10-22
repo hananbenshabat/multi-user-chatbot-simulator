@@ -3,9 +3,11 @@
 [![npm](https://img.shields.io/npm/v/multi-user-chatbot-simulator)](https://www.npmjs.com/package/multi-user-chatbot-simulator)
 [![license: MIT](https://img.shields.io/npm/l/multi-user-chatbot-simulator)](LICENSE)
 
+**[Try it live](https://hananbenshabat.github.io/multi-user-chatbot-simulator/)**, no install: it runs in your browser with a demo bot.
+
 Test a chatbot with many simulated users on one screen. Each user has their own chat; users are linked (a lead and their members, an agent and their customers), and one user's message can reach others through your bot.
 
-![A lead and three members, each with their own chat](docs/images/board.png)
+[![A lead and three members, each with their own chat](docs/images/board.png)](https://hananbenshabat.github.io/multi-user-chatbot-simulator/)
 
 - **Many users, side by side.** Type as anyone, tap the bot's buttons, answer each other.
 - **Messages aimed at people.** Your bot gets `message.targets` and replies with `to`; each reply lands in the right chat, and the sender sees who it reached.
@@ -40,7 +42,7 @@ Without React, use the one-file build:
 </script>
 ```
 
-## Try the demo
+## Run the demo locally
 
 ```
 git clone https://github.com/hananbenshabat/multi-user-chatbot-simulator.git

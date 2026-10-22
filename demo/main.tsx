@@ -2,6 +2,9 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ChatbotSimulator, demo, httpJson, type Controller } from '../src/index';
+// Imported here too: package.json marks only CSS as having side effects, so a production build can
+// skip src/index.ts (it only re-exports) and its stylesheet import with it. Apps import style.css directly.
+import '../src/ui/styles.css';
 
 declare global {
   interface Window {
@@ -18,8 +21,9 @@ createRoot(root).render(
     <ChatbotSimulator
       title="Multi-User Chatbot Simulator"
       storageKey="chatbot-sim-demo"
-      // the dev server answers every path with this page, so clean URLs work (/settings/adapters)
-      routing="browser"
+      // the dev server answers every path with this page, so clean URLs work (/settings/adapters);
+      // GitHub Pages doesn't, so the hosted demo uses #/ URLs that survive a reload
+      routing={import.meta.env.MODE === 'pages' ? 'hash' : 'browser'}
       profile="team"
       adapters={[demo(), httpJson({ type: 'http', label: 'Local server' })]}
       onReady={(app: Controller) => {
