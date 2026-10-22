@@ -1,7 +1,6 @@
 {
   "name": "multi-user-chatbot-simulator",
-  "version": "0.4.0",
-  "private": true,
+  "version": "0.5.0",
   "description": "Simulate many users talking to your chatbot, and to each other through it: a browser console with profiles, relations, adapters, scripts and export/import.",
   "keywords": [
     "bot",
@@ -25,6 +24,7 @@
     "dist",
     "examples",
     "docs",
+    "!docs/images",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
@@ -62,6 +62,9 @@
     "./standalone": "./dist/chatbot-sim.js",
     "./package.json": "./package.json"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -p tsconfig.json && vite build && vite build --mode standalone && tsc -p tsconfig.types.json",
@@ -76,7 +79,8 @@
     "publint": "publint",
     "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run knip && npm run build && npm run publint",
     "echo": "node examples/echo-server.mjs",
-    "prepare": "husky"
+    "prepare": "husky",
+    "prepublishOnly": "npm run check"
   },
   "devDependencies": {
     "@mantine/core": "^9.7.3",

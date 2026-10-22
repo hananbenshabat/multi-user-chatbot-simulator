@@ -70,9 +70,11 @@ Tests: `npm test`. Build: `npm run build`. Everything (types, lint, format, test
 
 ## Use it in your project
 
-It isn't on npm yet: build it from this repo (`npm run build`) and use the files in `dist/`.
+```
+npm install multi-user-chatbot-simulator
+```
 
-**Any page (no React needed):** take `dist/chatbot-sim.js` and `dist/chatbot-sim.css` from `npm run build` (React and Mantine are inside):
+**Any page (no React needed):** use `dist/chatbot-sim.js` and `dist/chatbot-sim.css` from the package (React and Mantine are inside), for example from a CDN: `https://unpkg.com/multi-user-chatbot-simulator/dist/chatbot-sim.js` and `…/dist/chatbot-sim.css`.
 
 ```html
 <link rel="stylesheet" href="chatbot-sim.css">
@@ -90,7 +92,7 @@ It isn't on npm yet: build it from this repo (`npm run build`) and use the files
 </script>
 ```
 
-**A React app** (React 19.2+, React Router 8+), with this repo as a dependency (for example `"multi-user-chatbot-simulator": "file:../multi-user-chatbot-simulator"` after building it):
+**A React app** (React 19.2+, React Router 8+):
 
 ```tsx
 import { ChatbotSimulator, httpJson } from 'multi-user-chatbot-simulator';
