@@ -289,3 +289,20 @@ test('replying under a message: hovering shows only its author in To; the reply 
   expect(within(dana).queryByRole('button', { name: '👍 Got it' })).toBeNull();
   expect(within(dana).getByText('review my draft?')).toBeTruthy();
 });
+
+test('a tap from a script answers like a click: to the author only, and the controls go away', async () => {
+  const app = await renderSimulator();
+  const r = await act(() =>
+    app.run({
+      users: [
+        { ref: 'lead', name: 'Lead', role: 'lead' },
+        { ref: 'dana', name: 'Dana', role: 'member', linkFrom: 'lead' },
+      ],
+      steps: [{ as: 'lead', say: 'review?' }, { as: 'dana', tap: '👍 Got it' }, { expect: { user: 'lead', text: 'Got it' } }],
+    }),
+  );
+  expect(r.ok).toBe(true);
+  const dana = screen.getByRole('region', { name: 'Dana' });
+  expect(within(dana).queryByRole('button', { name: '👍 Got it' })).toBeNull();
+  expect(app.session.users[1].messages.find((m) => m.from === 'bot')?.answered).toBe(true);
+});

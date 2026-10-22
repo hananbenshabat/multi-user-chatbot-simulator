@@ -697,6 +697,15 @@ export class SimStore {
     this.afterChange(linked ? undefined : [user.id]);
   }
 
+  /** The newest bot message in `user`'s chat with a button or list row `id`. */
+  messageWithChoice(user: User, id: string): Message | undefined {
+    for (let i = user.messages.length - 1; i >= 0; i--) {
+      const m = user.messages[i];
+      if (m.from === 'bot' && (m.buttons?.some((b) => b.id === id) || m.list?.rows.some((r) => r.id === id))) return m;
+    }
+    return undefined;
+  }
+
   /** Answer a relayed message from its author: send just to them and put its reply controls away. */
   answer(user: User, m: Message, input: SendRequest) {
     m.answered = true;
@@ -866,6 +875,12 @@ export class SimStore {
         const input: SendRequest = typeof message === 'string' ? { text: message } : { ...message };
         // `targets` accepts user ids or addresses
         if (input.targets) input.targets = input.targets.map((t) => findRef(t)?.address ?? t);
+        // A tap on a relayed message's button (from a script or code) works like a click: it answers
+        // that message's author and puts its reply controls away.
+        if ('buttonId' in input) {
+          const asked = s.messageWithChoice(user, input.buttonId);
+          if (asked?.author && !asked.answered) return s.answer(user, asked, { ...input, targets: input.targets ?? [asked.author] });
+        }
         return s.send(user, input);
       },
       receive(replies, type) {

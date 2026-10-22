@@ -2,22 +2,56 @@
 
 **Simulate many users talking to your chatbot, and to each other through it.**
 
+![A lead and three members, each with their own chat: the lead's question reached three users, one answered with a quick reply, one with their own text, and one hasn't answered yet](docs/images/board.png)
+
 Each *user* is a simulated person with their own chat. Create as many as you need, link them (a lead and their members, an agent and their customers, a teacher and their class…), type as any of them, tap the bot's buttons, answer each other, and watch every conversation side by side.
 
-The core idea: **one user's message can reach others.** A lead picks recipients with **To**, sends one message, and your API receives the message plus the chosen IDs. It answers with replies addressed to those people (`"to": "…"`), and each reply appears in the right user. The same goes for anything your bot sends to other users on its own.
+The core idea: **one user's message can reach others.** A lead sends one message; your API receives it plus the IDs it's aimed at (`message.targets`) and answers with replies addressed to those people (`"to": "…"`). Each reply lands in the right chat, with the sender's name on top, and the sent message says who it reached ("Sent to 3 users"). The same goes for anything your bot sends to other users on its own.
+
+## How it works
+
+<table>
+  <tr>
+    <td width="38%" valign="top">
+      <img src="docs/images/reply.png" alt="The lead's chat: answers from Dana and Avi with their names on top; replying under Avi's message highlights only Avi in the To row">
+    </td>
+    <td valign="top">
+      <b>Answer the person, not the room.</b> Messages relayed from other users show who they're from. Quick replies (👍 / 👎) sit under the message, with a reply box under the latest one from each person. Hovering or typing there highlights just that person in the <b>To</b> row, and the answer goes only to them. Once answered, the message keeps only the name and the text.
+      <br><br>
+      <b>The To row shows who you reach.</b> Everyone linked to this user, with the current recipients highlighted. A member's lead is always included.
+      <br><br>
+      <img src="docs/images/send-to.png" alt="The Send to dialog: linked users with checkboxes and an unlink button each, someone not on the board, and New user">
+      <br>
+      <b>Send to…</b> is the one place to change it: tick who gets your messages (ticking someone you aren't linked to links you), unlink with (−), or add a <b>New user…</b> linked to you.
+    </td>
+  </tr>
+</table>
 
 - **No backend, no database.** One script and one stylesheet drop into any page, or use it as a React component.
 - **Any bot, any API.** Users talk to your bot through *adapters*: the built-in HTTP JSON adapter (configured in the UI), or a short adapter of your own.
 - **Profiles make it yours.** One JSON file, editable in the UI, sets the ID format, roles, relations, custom fields, wording and look. Presets: Generic, Team, Support desk, Classroom, Phone numbers.
-- **Scripts:** paste a JSON scenario (create users, say, tap, share, act, wait, expect) and it runs by itself, from the toolbar or `app.run(script)`. Record what you did by hand into a script and replay it after every change.
+- **Scripts:** a JSON scenario (create users, say, tap, share, act, wait, expect) runs by itself and checks what arrives, from the toolbar or `app.run(script)`. Record what you did by hand into a script and replay it after every change.
 - **Export/import** a whole session (profile, users, links, messages) as one JSON file, to share a scenario or attach it to a bug report.
 - **Pages with their own URLs** ([React Router](https://reactrouter.com)): the board (`#/`), the timeline (`#/timeline`) and Settings (`#/settings/…`: the profile's General, Roles, Relations, Fields, Appearance and JSON, plus Adapters). Links and reloads keep you where you were.
 - **A polished UI** (React + [Mantine](https://mantine.dev)) with day and night themes: it follows the system setting, with a toggle that remembers the viewer's choice.
 - Buttons, lists, images, contacts and raw-data messages; adapter actions (reset test data, run a job…) that scripts and code can run; a timeline of all messages; bulk creation; filtering; right-to-left text; it works at phone width.
 
+<table>
+  <tr>
+    <td width="50%"><img src="docs/images/script.png" alt="The Script dialog after a run: the JSON scenario and five passed steps"></td>
+    <td width="50%"><img src="docs/images/settings.png" alt="Settings, Relations: Leads (lead to member) and Works with (member to member)"><br><br><img src="docs/images/board-dark.png" alt="The same board in the dark theme"></td>
+  </tr>
+  <tr>
+    <td>Scripts run a scenario and check who got what.</td>
+    <td>Profiles define roles, relations, fields and looks; day and night themes.</td>
+  </tr>
+</table>
+
 ## Quick start
 
 ```
+git clone https://github.com/hananbenshabat/multi-user-chatbot-simulator.git
+cd multi-user-chatbot-simulator
 npm install
 npm run dev        # http://localhost:8765 (pages: /, /timeline, /settings/…)
 ```
@@ -35,6 +69,8 @@ To try a real server, run `npm run echo` (key `dev`). In **Settings** (the ⚙ i
 Tests: `npm test`. Build: `npm run build`. Everything (types, lint, format, tests, dead code, build, package): `npm run check`.
 
 ## Use it in your project
+
+It isn't on npm yet: build it from this repo (`npm run build`) and use the files in `dist/`.
 
 **Any page (no React needed):** take `dist/chatbot-sim.js` and `dist/chatbot-sim.css` from `npm run build` (React and Mantine are inside):
 
@@ -54,7 +90,7 @@ Tests: `npm test`. Build: `npm run build`. Everything (types, lint, format, test
 </script>
 ```
 
-**A React app** (React 19.2+, React Router 8+):
+**A React app** (React 19.2+, React Router 8+), with this repo as a dependency (for example `"multi-user-chatbot-simulator": "file:../multi-user-chatbot-simulator"` after building it):
 
 ```tsx
 import { ChatbotSimulator, httpJson } from 'multi-user-chatbot-simulator';
@@ -91,7 +127,7 @@ A script is a JSON scenario that creates users, acts as them (say, tap, share, l
     { "expect": { "user": "dana", "text": "Can you review my draft?" } },
     { "expect": { "user": "avi", "none": true } },
     { "as": "dana", "tap": "👍 Got it" },
-    { "expect": { "user": "lead", "text": "Dana answered" } }
+    { "expect": { "user": "lead", "text": "Got it" } }
   ]
 }
 ```
