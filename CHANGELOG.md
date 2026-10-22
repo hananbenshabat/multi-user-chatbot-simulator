@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.1 (2026-10-23)
+- README: shorter, with install from npm and the one-file build from a CDN. No code changes.
+
 ## 0.5.0 (2026-10-23)
 - **New UI in React + [Mantine](https://mantine.dev), in TypeScript.** A redesigned header (view switch, filter, menus), chat panels with avatars, role colors, polished bubbles and a typing indicator, a table timeline, notifications, and new dialogs (Add, Edit, recipients, contacts, Settings, Script, Profile editor). Removing a user asks once, with a checkbox to also remove the users linked only under them. Everything renders inside the simulator's root, so it doesn't touch the host page's styles.
 - **Two builds:** `dist/chatbot-sim.js` + `dist/chatbot-sim.css` for any page (`ChatbotSim.mount()` and the `ChatbotSimCore`, `ChatbotSimScript` and `ChatbotSimAdapters` globals as before), and an ES module with the `<ChatbotSimulator>` React component and TypeScript types. Developing it now needs `npm install` (Vite, TypeScript); `npm run dev` serves the demo.
