@@ -1,6 +1,6 @@
 {
   "name": "multi-user-chatbot-simulator",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Simulate many users talking to your chatbot, and to each other through it: a browser console with profiles, relations, adapters, scripts and export/import.",
   "keywords": [
     "bot",
