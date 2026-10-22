@@ -8,7 +8,7 @@
 - **Links are managed from the leader's side:** only the user who made a link (the lead) has the (−) to unlink it; a member's chat and Edit dialog show their lead read-only. Counts leave the leader out: a group header reads "Lead (3)", and a member's recipients counter doesn't count their lead.
 - **Links live in the To row:** a chat's links and its recipients are one row: "To [★ Lead] [Dana −] [Noa −] (+)". The lead can't be removed, the users you linked have a (−) to unlink, and (+) is Link User. The separate links row in the chat header and the "Everyone (n)" chip are gone ("Everyone (n)" stays when Appearance → Show links is off). A hand-picked list that equals the default counts as the default.
 - **Taps from scripts and code answer like clicks:** tapping a button on a message another user sent (`{ "tap": … }`, `app.send(id, { buttonId })`) answers just that user and puts the message's reply controls away, the same as clicking it.
-- **README screenshots** (`docs/images/`): the board, replying, Send to…, scripts, settings and the dark theme.
+- **README screenshot** (`docs/images/board.png`).
 - **Answering puts a message's controls away:** after a quick reply or your own reply under a message, it shows just the name and the text (saved as `answered`). The reply box has a send button, off while empty, like the main one.
 - **Share contacts button removed** from the chat (it only fit the demo bot's "invite" flow). Sending contacts still works from scripts (`share` steps) and code (`app.send(id, { contacts })`), for bots that handle shared contacts.
 - **Add tiles** read "Add User", with "Linked to Lead" under them.

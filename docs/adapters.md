@@ -122,6 +122,8 @@ Placeholders: `user.*`, `parent.*`, `root.*` (each `{ id, name, address, role, f
 
 The server must allow CORS from the console's origin (including the custom auth header), or be served from the same origin. See [server.md](server.md) and `examples/echo-server.mjs`.
 
+**Try it locally:** `npm run echo` starts `examples/echo-server.mjs` on port 8000 (key `dev`). In **Settings → Adapters**, under **Local server**, set "Auth header value" to `dev`, the poll URL to `http://localhost:8000/poll` and the poll interval to `1`, then add users with the **Local server** adapter.
+
 ## Writing your own
 
 When your API doesn't fit the HTTP adapter's shape, map it in a small adapter instead of changing the server:

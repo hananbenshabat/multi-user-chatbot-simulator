@@ -17,3 +17,17 @@ Guidelines:
 - Message content is user data: render it as React text, never `dangerouslySetInnerHTML`.
 - Try every change in the demo page in both themes and at phone width (390 px).
 - Keep `docs/` in step with the change, and add a line to `CHANGELOG.md`.
+
+## Files
+
+| | |
+|---|---|
+| `src/core/` | the model: profiles, the session, links and groups, messages and reply routing, export/import, templates (no DOM, no dependencies; runs in Node) |
+| `src/script/` | scripts: parse, run, record (no DOM; runs in Node) |
+| `src/adapters/` | `demo.ts` (in-browser demo bot), `http-json.ts` (configurable HTTP) |
+| `src/ui/` | the React UI: `store.ts` (state, adapters, autosave, controller), the board, chats, dialogs, settings, `styles.css` |
+| `src/types.ts` | public types: profiles, sessions, adapters, the controller |
+| `src/index.ts`, `src/standalone.ts` | the ESM entry and the one-file build's entry |
+| `demo/`, `index.html` | the demo page (`npm run dev`) |
+| `examples/` | `echo-server.mjs` (reference server), `drop-in.html`, `scripts/` (example scenarios) |
+| `test/` | Vitest: logic tests in Node, UI tests in `test/ui/` |
